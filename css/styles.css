@@ -1,0 +1,49 @@
+/* Styles global */
+* {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    color: black;
+}
+body {
+    width: 470px;
+}
+.clear {
+    clear: both;
+}
+footer {
+    margin: 10px 0 0 0;
+}
+section {
+    padding: 5px;
+
+/* Styles de #home */
+}
+#title {
+    color: red;
+    font-size: 16px;
+    text-align: center;
+}
+#image {
+    width: 450px;
+    height: 300px;
+}
+#btnPlay {
+    float: right;
+}
+/* Styles de #game */
+#animation {
+    background-color: #FFF;
+}
+.cdu {
+    width: 15px;
+    padding: 1px;
+    margin: 0 2px;
+}
+
+/* Styles de #score */
+#btnReplay {
+    float: left;
+}
+#btnHome {
+    float: right;
+}
