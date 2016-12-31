@@ -41,6 +41,16 @@ section {
 }
 
 /* Styles de #score */
+#summary span {
+    font-size: 24px;
+    font-weight: bolder;
+}
+#summary.fail span {
+    color: red;
+}
+#summary.success span {
+    color: green;
+}
 #btnReplay {
     float: left;
 }

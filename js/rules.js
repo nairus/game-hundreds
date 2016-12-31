@@ -27,7 +27,7 @@ $(document).ready(function () {
      */
     rules.animate = function() {
         if (models.timeLimit <= models.gameTime) {
-            rules.displayScore("Game Over: Try again");
+            rules.displayScore("Game Over: Temps dépassé", false);
         } else {            
             // effaçage de tous les dessins.
             functions.clearCanvas();
@@ -51,9 +51,20 @@ $(document).ready(function () {
     /**
      * Affiche l'écran de score (bilan).
      */
-    rules.displayScore = function (message) {
+    rules.displayScore = function (message, success, score) {
         models.currentScreen = "#score";
-        $("#summary").html("<strong>" + message + "</strong>");
+        var cssClass = "fail";
+        if (true === success) {
+            cssClass = "success"
+        }
+        $summary = $("#summary");
+        $summary.removeClass();
+        $summary.addClass(cssClass);
+        $summary.html("<span>" + message + "</span>");
+        if (false == success && "undefined" != typeof score) {
+            $summary.append("<br><em>Le score à trouver était: <strong>" + score + "</strong></em>");
+        }
+
         $("#game").hide();
         $("#score").show();
     }

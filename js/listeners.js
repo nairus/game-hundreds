@@ -42,7 +42,26 @@ $(document).ready(function () {
      * Callback pour valider les données.
      */
     listeners.validateForm = function(event) {
-        // TODO
+        // Récupération des valeurs saisies par l'utlisateurs.
+        var userNbC = $("#unities #c").val();
+        var userNbD = $("#unities #d").val();
+        var userNbU = $("#unities #u").val();
+        var userTotal = $("#total").val();
+
+        // Récupération des données du mode courant.
+        var elements = models.modes[models.modes.currentMode].elements;
+        var total = (elements.c.nb * 100) + (elements.d.nb * 10) + elements.u.nb;
+
+        // Vérification des centaines.
+        if (elements.c.nb == userNbC &&
+            elements.d.nb == userNbD &&
+            elements.u.nb == userNbU &&
+            total == userTotal) {
+            rules.displayScore("Bravo !! Tu as réussi !!", true, total);
+        } else {
+            rules.displayScore("Game Over: Try again", false, total);
+        }
+
     };
 
     /**

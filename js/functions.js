@@ -347,7 +347,10 @@ $(document).ready(function () {
      * Remet le jeu à zéro.
      */
     functions.resetGame = function() {
+        // Remise à zéro du temps de jeu.
         models.gameTime = 0;
+
+        // Remise à zéro des données.
         models.modes.currentMode = functions.getRandom(0, 2);
         models.modes[1].elements.c.nb = functions.getRandom(0, 9);
         models.modes[1].elements.d.nb = functions.getRandom(0, 9);
@@ -355,6 +358,12 @@ $(document).ready(function () {
         models.modes[2].elements.c.nb = functions.getRandom(0, 9);
         models.modes[2].elements.d.nb = functions.getRandom(0, 9);
         models.modes[2].elements.u.nb = functions.getRandom(0, 9);
+
+        // Remise à zéro de la saisie utilisateur.
+        $("#unities #c").val("");
+        $("#unities #d").val("");
+        $("#unities #u").val("");
+        $("#total").val("");
     };
 
     game.models = models;
