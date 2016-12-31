@@ -364,6 +364,9 @@ $(document).ready(function () {
         $("#unities #d").val("");
         $("#unities #u").val("");
         $("#total").val("");
+
+        // On vide le canvas.
+        functions.clearCanvas();
     };
 
     game.models = models;
