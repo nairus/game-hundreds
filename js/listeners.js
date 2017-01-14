@@ -13,6 +13,7 @@ $(document).ready(function () {
         $("#game").show();
         models.currentScreen = "#game";
         functions.resetGame();
+        $("#unities #c").focus();
     };
 
     /**
@@ -36,6 +37,7 @@ $(document).ready(function () {
         $("#game").show();
         models.currentScreen = "#game";
         functions.resetGame();
+        $("#unities #c").focus();
     };
 
     /**
@@ -49,15 +51,22 @@ $(document).ready(function () {
         var userTotal = $("#total").val();
 
         // Récupération des données du mode courant.
-        var elements = models.modes[models.modes.currentMode].elements;
-        var total = (elements.c.nb * 100) + (elements.d.nb * 10) + elements.u.nb;
+        var elements = models.levelsList[models.currentLevel].elements;
+        var total = (elements.c * 100) + (elements.d * 10) + elements.u;
 
         // Vérification des centaines.
-        if (elements.c.nb == userNbC &&
-            elements.d.nb == userNbD &&
-            elements.u.nb == userNbU &&
+        if (elements.c == userNbC &&
+            elements.d == userNbD &&
+            elements.u == userNbU &&
             total == userTotal) {
-            rules.displayScore("Bravo !! Tu as réussi !!", true, total);
+            // Si le niveau courant est inférieur au nb de niveau.
+            if ((models.currentLevel + 1) < models.levelsList.length) {
+                // On incrémente de niveau.
+                models.changeLevel();
+                $("#unities #c").focus();
+            } else {
+                rules.displayScore("Bravo !! Tu as réussi !!", true, total);
+            }
         } else {
             rules.displayScore("Game Over: Try again", false, total);
         }
@@ -71,7 +80,7 @@ $(document).ready(function () {
         var $home = $("#home");
         var $game = $("#game");
         var $score = $("#score");
-		
+
         // Listeners de l'accueil.
         $home.on("click", "#btnPlay", listeners.playGame);
 
