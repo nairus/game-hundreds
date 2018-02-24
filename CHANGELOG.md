@@ -6,8 +6,6 @@ La dernière version du jeu se trouve sur la branche master.
 
 - Ajout de la gestion des niveaux.
 - Ajout du score du joueur.
-- Sauvegarde des meilleurs scores.
-- Affichage des meilleurs scores.
 
 1.0.1
 
