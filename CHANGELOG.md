@@ -2,6 +2,11 @@
 
 La dernière version du jeu se trouve sur la branche master.
 
+2.0.0
+
+- Ajout de la gestion des niveaux.
+- Ajout du score du joueur.
+
 1.0.1
 
 - Ajout du README.md et de la licence.

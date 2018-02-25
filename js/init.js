@@ -6,14 +6,16 @@ $(document).ready(function () {
      */
     game.init = function() {
         // définitions des données
-        game.functions.createDatas();
+        game.models.createDatas();
         // initialisation des variables
-        game.functions.initVariables();
+        game.models.initVariables();
         // définitions des gestionnaires
         game.listeners.createlisteners();
 
         // moteur de règles
         game.interRules = setInterval(game.rules.createRules, 100);
+
+        $("#description").html("Trouve le nombre juste selon le mode (boite ou euros) et passe avec succès les " + game.models.levelsList.length + " niveaux du jeux.");
 
         // lancement
         $("#home").show();

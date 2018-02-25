@@ -1,115 +1,11 @@
 $(document).ready(function () {
     var game = window.game || {};
-    var models = {};
+    var models = game.models || {};
     var functions = {};
 
 
     functions.getRandom = function (min, max) {
         return Math.ceil(Math.random() * (max - min) + min);
-    };
-
-    /**
-     * Créer les données du jeux.
-     */
-    functions.createDatas = function() {
-        models.modes = {
-            "currentMode": functions.getRandom(0,2),
-            "1": {
-                "label": "box",
-                "elements": {
-                    "c": {
-                        "nb": functions.getRandom(0,9),
-                        "size": "xs",
-                        "color": "1"
-                    },
-                    "d": {
-                        "nb": functions.getRandom(0,9),
-                        "size": "s",
-                        "color": "0"
-                    },
-                    "u": {
-                        "nb": functions.getRandom(0,9),
-                        "size": "m",
-                        "color": "2"
-                    }
-                }
-            }, 
-            "2": {
-                "label": "money",
-                "elements": {
-                    "c": {
-                        "nb": functions.getRandom(0,9),
-                        "size": "xxl",
-                        "color": "1",
-                        "fontSize": 15,
-                        "fontColor": "4",
-                        "value": 100
-                    },
-                    "d": {
-                        "nb": functions.getRandom(0,9),
-                        "size": "l",
-                        "color": "0",
-                        "fontSize": 10,
-                        "fontColor": "4",
-                        "value": 10
-                    },
-                    "u": {
-                        "nb": functions.getRandom(0,9),
-                        "size": "m",
-                        "color": "3",
-                        "fontSize": 15,
-                        "fontColor": "5",
-                        "value": 1
-                    }
-                }
-            }
-        };
-
-        models.sizesList = {
-            "xs":  5,
-            "s":   10,
-            "m":   15,
-            "l":   20,
-            "xl":  25,
-            "xxl": 30
-        };
-
-        models.colorsList = {
-            "0": "#FF0000", // rouge
-            "1": "#008000", // vert
-            "2": "#0000FF", // bleu
-            "3": "gold",
-            "4": "#FFFFFF", // blanc
-            "5": "#333333"  // gris foncé
-        };
-
-        // Ajout des données du canvas.
-        var animation = document.getElementById("animation");
-        if (animation.getContext) {
-            var ctx = animation.getContext("2d");
-            // composition
-            ctx.globalCompositeOperation = 'lighter';
-            var canvas = {
-                x: animation.offsetLeft,
-                y: animation.offsetTop - $("#home").outerHeight(),
-                height: animation.height,
-                width: animation.width,
-                ctx: ctx
-            }
-
-            models.canvas = canvas;
-        } else {
-            throw Error("Votre navigateur ne supporte pas les canvas.");
-        }
-    };
-
-    /**
-     * Initialise les variables du ;jeu.
-     */
-    functions.initVariables = function() {
-        models.currentScreen = "#home";
-        models.gameTime = 0;
-        models.timeLimit = 1000;
     };
 
     /**
@@ -124,7 +20,7 @@ $(document).ready(function () {
      */
     functions.drawRectangle = function(w, h, x, y, colorId) {
         var ctx = game.models.canvas.ctx;
-    
+
         ctx.save();
         // 1. On définit la couleur.
         ctx.fillStyle = models.colorsList[colorId];
@@ -151,7 +47,7 @@ $(document).ready(function () {
         ctx.beginPath();
         ctx.arc(0, 0, radius, 0, 2 * Math.PI, false);
         ctx.fillStyle = models.colorsList[colorId];
-        ctx.fill();     
+        ctx.fill();
         // retour à l'état précédent du contexte
         ctx.restore();
     };
@@ -169,7 +65,7 @@ $(document).ready(function () {
 
         if (true === withStroke) {
             // Contour de texte
-            ctx.strokeText(message, x + 1, y + 1);    
+            ctx.strokeText(message, x + 1, y + 1);
         }
     };
 
@@ -177,49 +73,59 @@ $(document).ready(function () {
      * Dessine l'ensemble des boites de centaines/dizaines/unités
      .
      */
-    functions.drawBoxes = function(elements, x, y) {        
+    functions.drawBoxes = function(nbElements, elements, x, y) {
         // Initialisation de la position de départ.
         var position = {x: x, y: y};
 
         // Dessin des centaines.
         var c = elements.c;
-        position = functions.drawBloc(c, position, 100, 10);
+        position = functions.drawBloc(nbElements.c, c, position, 100, 10);
 
         var sizeBlocC = (((models.sizesList[c.size] + 1) * 10));
         position.x = x;
 
-        if (c.nb > 0) {
-            position.y += sizeBlocC + 20;
+        if (nbElements.c > 0) {
+            position.y += 10;
+            // Si le nb de boite n'est pas égale à la limite en largeur (retour à la ligne auto).
+            // On force le retour à la ligne.
+            if (nbElements.c != 7) {
+                position.y += sizeBlocC;
+            }
         }
 
         // Dessin des dizaines.
         var d = elements.d;
-        position = functions.drawBloc(d, position, 10, 5);
+        position = functions.drawBloc(nbElements.d, d, position, 10, 5);
 
         var sizeBlocD = ((models.sizesList[d.size] + 1) * 2);
         position.x = x;
 
-        if (d.nb > 0) {
-            position.y += sizeBlocD + 20;
+        if (nbElements.d > 0) {
+            position.y += 10;
+
+            // Si le nb de boite n'est pas égale à la limite en largeur (retour à la ligne auto).
+            // On force le retour à la ligne.
+            if (nbElements.d != 8) {
+                position.y += sizeBlocD;
+            }
         }
 
         // Dessin des unités
-        var u = elements.u;
-        position = functions.drawBloc(u, position, 1, 1);
+        position = functions.drawBloc(nbElements.u, elements.u, position, 1, 1);
     };
 
     /**
      * Dessine un  bloc de boites (centaines, dizaines, unités).
      */
-    functions.drawBloc = function(element, position, nbBloc, nbBlocsPerLine) {
-        if (element.nb > 0) {
+    functions.drawBloc = function(nbElements, element, position, nbBloc, nbBlocsPerLine) {
+        if (nbElements > 0) {
             var size = models.sizesList[element.size];
             var colorId = element.color;
 
             var startX = position.x;
             var startY = position.y;
 
-            for (var i = 0; i < element.nb; i++) {
+            for (var i = 0; i < nbElements; i++) {
                 var tempX = position.x;
 
                 for (var j = 0; j < nbBloc; j++)  {
@@ -251,44 +157,51 @@ $(document).ready(function () {
     /**
      * Dessine les éléments en mode "argent".
      */
-    functions.drawMoney = function(elements, x, y) {
+    functions.drawMoney = function(nbElements, elements, x, y) {
         // Initialisation de la position de départ.
         var position = {x: x, y: y};
 
         // Dessin des billets de 100 euros.
         var c = elements.c;
-        position = functions.drawBankBills(c, position);
+        position = functions.drawBankBills(nbElements.c, c, position);
 
         position.x = x;
-        if (c.nb > 0) {
-            position.y += (models.sizesList[c.size] + 1) + 20;
+        var sizeBlocC = models.sizesList[c.size] + 1;
+        if (nbElements.c > 0) {
+            position.y += 10;
+            if (nbElements.c != 6 && nbElements.c != 12) {
+                position.y += sizeBlocC;
+            }
         }
 
         // Dessin des billets de 10 euros.
         var d = elements.d
-        position = functions.drawBankBills(d, position);
+        position = functions.drawBankBills(nbElements.d, d, position);
 
         position.x = x;
-        if (d.nb > 0) {
-            position.y += (models.sizesList[d.size] + 1) + 20;
+        var sizeBlocD = models.sizesList[d.size] + 1;
+        if (nbElements.d > 0) {
+            position.y += 10;
+            if (nbElements.d != 8) {
+                position.y += sizeBlocD;
+            }
         }
 
         // Dessin des pièces de 1 euro.
-        var u = elements.u;
-        functions.drawCoins(u, position);
+        functions.drawCoins(nbElements.u, elements.u, position);
     };
     /**
      * Dessine des billets de banque.
      *
      * Ex. {"nb": 5, "size": "l", "color": "0", "fontSize": 10, "fontColor": "4", "value": 10}
      */
-    functions.drawBankBills = function(element, position) {
-        if (element.nb > 0) {
+    functions.drawBankBills = function(nbElements, element, position) {
+        if (nbElements > 0) {
             var size = models.sizesList[element.size];
             var colorId = element.color;
             var startX = position.x;
 
-            for (var i = 0; i < element.nb; i++) {
+            for (var i = 0; i < nbElements; i++) {
                 var w = (size) * 2.5;
                 var h = size;
                 functions.drawRectangle(w, h, position.x, position.y, element.color);
@@ -310,15 +223,15 @@ $(document).ready(function () {
     /**
      * Dessine des pièce de monnaie.
      */
-    functions.drawCoins = function(element, position) {
-        if (element.nb > 0) {
+    functions.drawCoins = function(nbElements, element, position) {
+        if (nbElements > 0) {
             var radius = models.sizesList[element.size];
             var colorId = element.color;
             position.x += radius + 1;
             position.y += radius + 1;
             var startX = position.x;
 
-            for(var i = 0; i < element.nb; i++) {
+            for(var i = 0; i < nbElements; i++) {
                 functions.drawBall(radius, position.x, position.y, colorId);
                 functions.writeMessage(element.value, element.fontSize, element.fontColor, (position.x - 4), (position.y + 4), false);
 
@@ -347,23 +260,22 @@ $(document).ready(function () {
      * Remet le jeu à zéro.
      */
     functions.resetGame = function() {
-        // Remise à zéro du temps de jeu.
-        models.gameTime = 0;
+        models.resetVariables();
 
         // Remise à zéro des données.
         models.modes.currentMode = functions.getRandom(0, 2);
-        models.modes[1].elements.c.nb = functions.getRandom(0, 9);
-        models.modes[1].elements.d.nb = functions.getRandom(0, 9);
-        models.modes[1].elements.u.nb = functions.getRandom(0, 9);
-        models.modes[2].elements.c.nb = functions.getRandom(0, 9);
-        models.modes[2].elements.d.nb = functions.getRandom(0, 9);
-        models.modes[2].elements.u.nb = functions.getRandom(0, 9);
+        var min = 0;
+        var max = 5;
+        for (var i = 0; i < models.levelsList.length; i++) {
+            var elements = models.levelsList[i].elements;
+            elements.c = game.functions.getRandom(min, max);
+            elements.d = game.functions.getRandom(min, max);
+            elements.u = game.functions.getRandom(min, max);
+            min += 2;
+            max += 2;
+        }
 
-        // Remise à zéro de la saisie utilisateur.
-        $("#unities #c").val("");
-        $("#unities #d").val("");
-        $("#unities #u").val("");
-        $("#total").val("");
+        models.clearFields();
 
         // On vide le canvas.
         functions.clearCanvas();

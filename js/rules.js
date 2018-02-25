@@ -26,24 +26,26 @@ $(document).ready(function () {
      * Animation du jeu.
      */
     rules.animate = function() {
-        if (models.timeLimit <= models.gameTime) {
+        if (models.levelsList[models.currentLevel].timeLimit <= models.gameTime) {
             rules.displayScore("Game Over: Temps dépassé", false);
-        } else {            
+        } else {
             // effaçage de tous les dessins.
             functions.clearCanvas();
-            functions.writeMessage("Temps: " + Math.ceil(models.gameTime / 10) + "'' / " + (models.timeLimit / 10) + " sec.", 12, "blue", 5, 20, true);
-            functions.writeMessage("Mode: " + models.modes[models.modes.currentMode].label, 10, "green", 5, 40, true);
-            
+            functions.writeMessage("Temps: " + Math.ceil(models.gameTime / 10) + "'' / " + (models.levelsList[models.currentLevel].timeLimit / 10) + " sec.", 12, 2, 5, 20, true);
+            functions.writeMessage("Mode: " + models.modes[models.modes.currentMode].label, 10, 1, 5, 40, true);
+            functions.writeMessage("Niveau: " + models.levelsList[models.currentLevel].level, 10, 6, 5, 60, true);
+
             // Initialisation des positions 10px en dessous des écritures.
             var x = 0;
-            var y = 60;
+            var y = 80;
 
             // On dessine les formes selon le mode (box/money);
             var elements = models.modes[models.modes.currentMode].elements;
+            var nbElements = models.levelsList[models.currentLevel].elements
             if (models.modes.currentMode == 1) {
-                functions.drawBoxes(elements, x, y);
+                functions.drawBoxes(nbElements, elements, x, y);
             } else {
-                functions.drawMoney(elements, x, y);
+                functions.drawMoney(nbElements, elements, x, y);
             }
         }
     };
