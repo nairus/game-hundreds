@@ -2,6 +2,10 @@
 
 La dernière version du jeu se trouve sur la branche master.
 
+3.0.0
+
+- Migration React / Redux / Webpack
+
 2.1.0
 
 - Sauvegarde des meilleurs scores.
