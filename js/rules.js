@@ -27,7 +27,7 @@ $(document).ready(function() {
    */
   rules.animate = function() {
     if (models.levelsList[models.currentLevel].timeLimit <= models.gameTime) {
-      rules.displayScore("Game Over: Temps dépassé", false);
+      rules.displayScore("Game Over : Temps dépassé", false);
     } else {
       // effaçage de tous les dessins.
       functions.clearCanvas();
@@ -88,9 +88,19 @@ $(document).ready(function() {
     $summary.removeClass();
     $summary.addClass(cssClass);
     $summary.html("<span>" + message + "</span>");
+
+    // Si le joueur a échoué.
     if (false == success && "undefined" != typeof score) {
       $summary.append(
-        "<br><em>Le score à trouver était: <strong>" + score + "</strong></em>"
+        `<br><em>Le score à trouver était : <strong>${score}</strong></em>`
+      );
+    }
+
+    // Si le joueur à réussi.
+    if (true == success) {
+      let playerScore = Math.ceil(models.playerScore / 10);
+      $summary.append(
+        `<br><em>Ton temps total est de : <strong>${playerScore} sec.</strong></em>`
       );
     }
 

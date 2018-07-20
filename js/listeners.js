@@ -10,10 +10,8 @@ $(document).ready(function() {
    */
   listeners.playGame = function(event) {
     $("#home").hide();
-    $("#game").show();
-    models.currentScreen = "#game";
-    functions.resetGame();
-    $("#unities #c").focus();
+    $("#player").show();
+    models.currentScreen = "#player";
   };
 
   /**
@@ -59,6 +57,35 @@ $(document).ready(function() {
   };
 
   /**
+   * Callback pour sauvegarder le pseudo du joueur.
+   *
+   * @param {Object} event
+   */
+  listeners.savePseudo = function(event) {
+    // Récupération du pseudo.
+    let pseudo = $("#pseudo")
+      .val()
+      .trim();
+    let $error = $(".error");
+
+    if (!pseudo) {
+      $error.append("Il faut renseigner un nom de joueur !");
+      return;
+    }
+
+    // On vide le message d'erreur.
+    $error.empty();
+
+    // On lance le jeu
+    functions.resetGame();
+    models.playerName = pseudo;
+    $("#player").hide();
+    $("#game").show();
+    models.currentScreen = "#game";
+    $("#unities #c").focus();
+  };
+
+  /**
    * Callback pour valider les données.
    */
   listeners.validateForm = function(event) {
@@ -94,7 +121,7 @@ $(document).ready(function() {
         rules.displayScore("Bravo !! Tu as réussi !!", true, total);
       }
     } else {
-      rules.displayScore("Game Over: Try again", false, total);
+      rules.displayScore("Game Over : Try again", false, total);
     }
   };
 
@@ -116,6 +143,7 @@ $(document).ready(function() {
    */
   listeners.createlisteners = function() {
     let $home = $("#home");
+    let $player = $("#player");
     let $game = $("#game");
     let $score = $("#score");
     let $bestScores = $("#best-scores");
@@ -123,6 +151,9 @@ $(document).ready(function() {
     // Listeners de l'accueil.
     $home.on("click", "#btnPlay", listeners.playGame);
     $home.on("click", "#btnBestScores", listeners.displayBestScores);
+
+    // Listeners de la saisie du pseudo.
+    $player.on("click", "#btnSave", listeners.savePseudo);
 
     // Listeners du jeu.
     $game.on("click", "#btnValidate", listeners.validateForm);

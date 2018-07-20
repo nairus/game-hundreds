@@ -29,6 +29,13 @@ section {
 #btnPlay {
   float: right;
 }
+
+/*Style de #player */
+.error {
+  color: red;
+  font-weight: bold;
+}
+
 /* Styles de #game */
 #animation {
   background-color: #fff;
@@ -57,7 +64,7 @@ section {
   float: right;
 }
 
-/* Style de best-scores */
+/* Style de #best-scores */
 #scores-list {
   position: relative;
   padding: 10px 0;
