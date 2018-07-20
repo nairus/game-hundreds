@@ -2,6 +2,11 @@
 
 La dernière version du jeu se trouve sur la branche master.
 
+2.1.0
+
+- Sauvegarde des meilleurs scores.
+- Affichage des meilleurs scores.
+
 2.0.0
 
 - Ajout de la gestion des niveaux.
