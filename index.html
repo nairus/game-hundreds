@@ -1,51 +1,69 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Jeu des centaines</title>
-        <link rel="stylesheet" type="text/css" href="css/styles.css" media="screen" />
-        <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="js/models.js"></script>
-        <script type="text/javascript" src="js/functions.js"></script>
-        <script type="text/javascript" src="js/rules.js"></script>
-        <script type="text/javascript" src="js/listeners.js"></script>
-        <script type="text/javascript" src="js/init.js"></script>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Jeu des centaines</title>
+    <link rel="stylesheet" type="text/css" href="css/styles.css" media="screen" />
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+        crossorigin="anonymous"></script>
+    <script type="text/javascript" src="js/models.js"></script>
+    <script type="text/javascript" src="js/functions.js"></script>
+    <script type="text/javascript" src="js/rules.js"></script>
+    <script type="text/javascript" src="js/listeners.js"></script>
+    <script type="text/javascript" src="js/init.js"></script>
 </head>
-    <body>
 
-        <section id="home">
-            <h1 id="title">Jeu des centaines</h1>
-            <img id="image" src="images/game.png" alt="Jeu des centaines">
-            <p id="description"></p>
-            <button id="btnPlay">Jouer</button>
-            <div class="clear"></div>
-        </section>
+<body>
 
-        <section id="game">
-            <p id="rules">Trouve le nombre de centaines (c), de dizaines (d) et d'unités (u), calcule le nombre total.</p>
-            <canvas id="animation" width="500" height="300"></canvas>
-            <p id="unities">
-                <label>Nombre découpé en centaines / dizaines / unités:</label>
-                <input class="cdu" type="text" id="c" name="c" placeholder="c">
-                <input class="cdu" type="text" id="d" name="d" placeholder="d">
-                <input class="cdu" type="text" id="u" name="u" placeholder="u">
-            </p>
-            <p>
-                <label for="total">Total:</label>
-                <input id="total" type="text" name="total">
-            </p>
-            <button id="btnValidate">Valider</button>
-            <button id="btnQuit">Quitter</button>
-            <div class="clear"></div>
-        </section>
+    <section id="home">
+        <h1 id="title">Jeu des centaines</h1>
+        <img id="image" src="images/game.png" alt="Jeu des centaines">
+        <p id="description"></p>
+        <button id="btnPlay">Jouer</button>
+        <div class="clear"></div>
+    </section>
 
-        <section id="score">
-            <p id="summary"></p>
-            <button id="btnReplay">Rejouer</button>
-            <button id="btnHome">Accueil</button>
-            <div class="clear"></div>
-        </section>
+    <section id="game">
+        <p id="rules">Trouve le nombre de centaines (c), de dizaines (d) et d'unités (u), calcule le nombre total.</p>
+        <canvas id="animation" width="500" height="300"></canvas>
+        <p id="unities">
+            <label>Nombre découpé en centaines / dizaines / unités:</label>
+            <input class="cdu" type="text" id="c" name="c" placeholder="c">
+            <input class="cdu" type="text" id="d" name="d" placeholder="d">
+            <input class="cdu" type="text" id="u" name="u" placeholder="u">
+        </p>
+        <p>
+            <label for="total">Total:</label>
+            <input id="total" type="text" name="total">
+        </p>
+        <button id="btnValidate">Valider</button>
+        <button id="btnQuit">Quitter</button>
+        <div class="clear"></div>
+    </section>
 
-        <footer>Auteur : Nicolas Surian - janvier 2017</footer>
-    </body>
+    <section id="player">
+        <p class="infos">Saisi ton pseudo</p>
+        <input class="pseudo" name="pseudo">
+        <button id="btnSave">Sauver</button>
+        <div class="clear"></div>
+    </section>
+
+    <section id="best-scores">
+        <p class="infos">Les meilleurs scores</p>
+        <div id="scores-list"></div>
+        <button id="btnClearBestScore">Vider les meilleurs scores</button>
+        <div class="clear"></div>
+    </section>
+
+    <section id="score">
+        <p id="summary"></p>
+        <button id="btnReplay">Rejouer</button>
+        <button id="btnHome">Accueil</button>
+        <div class="clear"></div>
+    </section>
+
+    <footer>Auteur : Nicolas Surian - janvier 2017</footer>
+</body>
+
 </html>
