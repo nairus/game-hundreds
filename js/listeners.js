@@ -17,6 +17,23 @@ $(document).ready(function() {
   };
 
   /**
+   * Callback d'affichage de la page des meilleurs scores.
+   *
+   * @param {Object} event
+   */
+  listeners.displayBestScores = event => {
+    // Construction de la liste des meilleurs scores.
+    rules.displayBestScores(models.bestScores);
+
+    // Affichage de la page.
+    models.currentScreen = "#best-scores";
+    $("#home").hide();
+    $("#score").hide();
+    $("#game").hide();
+    $("#best-scores").show();
+  };
+
+  /**
    * Callback pour quitter le jeu.
    */
   listeners.quitGame = function(event) {
@@ -24,6 +41,7 @@ $(document).ready(function() {
     $("#home").show();
     $("#game").hide();
     $("#score").hide();
+    $("#best-scores").hide();
     models.currentScreen = "#home";
     functions.resetGame();
   };
@@ -81,15 +99,30 @@ $(document).ready(function() {
   };
 
   /**
+   * Vide les meilleurs scores.
+   *
+   * @param {Object} event
+   */
+  listeners.clearBestScores = event => {
+    // Suppression des données.
+    functions.resetBestScores();
+
+    // Rendu de la vue vide.
+    rules.displayBestScores([]);
+  };
+
+  /**
    * Création des écouteurs du jeu.
    */
   listeners.createlisteners = function() {
-    var $home = $("#home");
-    var $game = $("#game");
-    var $score = $("#score");
+    let $home = $("#home");
+    let $game = $("#game");
+    let $score = $("#score");
+    let $bestScores = $("#best-scores");
 
     // Listeners de l'accueil.
     $home.on("click", "#btnPlay", listeners.playGame);
+    $home.on("click", "#btnBestScores", listeners.displayBestScores);
 
     // Listeners du jeu.
     $game.on("click", "#btnValidate", listeners.validateForm);
@@ -98,6 +131,10 @@ $(document).ready(function() {
     // Listeners de l'écran de bilan.
     $score.on("click", "#btnReplay", listeners.replayGame);
     $score.on("click", "#btnHome", listeners.quitGame);
+
+    // Listeners de l'écran des meilleurs scores.
+    $bestScores.on("click", "#btnReturnHome", listeners.quitGame);
+    $bestScores.on("click", "#btnClearBestScore", listeners.clearBestScores);
   };
 
   game.listeners = listeners;
